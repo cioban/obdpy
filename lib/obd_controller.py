@@ -38,7 +38,7 @@ class OBD_CONTROLLER:
         self.obd.pid_dict[0x10].calc_function = self.obd.maf
         self.obd.pid_dict[0x11].calc_function = self.obd.throttle_position
 
-    def avg(value_list):
+    def avg(self, value_list):
         value_sum = 0
 
         for elm in value_list:

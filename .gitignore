@@ -1,0 +1,9 @@
+*.pyc
+tmp
+*.pyo
+*.o
+*.so
+*cioban*
+tmp
+*.tar.zx
+*.swp
