@@ -1,0 +1,8 @@
+::obdpy:: TODO - 14/09/2014
+
+- Put PID data colletor in a thread
+- Improve menu
+- Bluetooth configuration using obdpy through d-bus and bluez
+- Use GPS
+- With GPS installed and working, use the mapradar database
+- Test in more vehicles

@@ -1,0 +1,298 @@
+0,4,PIDs supported [01 - 20],,,,Bit encoded [A7..D0] == [PID $01..PID $20] See below
+1,4,Monitor status since DTCs cleared. (Includes malfunction indicator lamp (MIL) status and number of DTCs.),,,,Bit encoded. See below
+2,2,Freeze DTC,,,,
+3,2,Fuel system status,,,,Bit encoded. See below
+4,1,Calculated engine load value,0,100, %,A*100/255
+5,1,Engine coolant temperature,-40,215,°C,A-40
+6,1,Short term fuel % trim—Bank 1,-100 Subtracting Fuel (Rich Condition),99.22 Adding Fuel (Lean Condition), %,(A-128) * 100/128
+7,1,Long term fuel % trim—Bank 1,-100 Subtracting Fuel (Rich Condition),99.22 Adding Fuel (Lean Condition), %,(A-128) * 100/128
+8,1,Short term fuel % trim—Bank 2,-100 Subtracting Fuel (Rich Condition),99.22 Adding Fuel (Lean Condition), %,(A-128) * 100/128
+9,1,Long term fuel % trim—Bank 2,-100 Subtracting Fuel (Rich Condition),99.22 Adding Fuel (Lean Condition), %,(A-128) * 100/128
+0A,1,Fuel pressure,0,765,kPa (gauge),A*3
+0B,1,Intake manifold absolute pressure,0,255,kPa (absolute),A
+0C,2,Engine RPM,0,16383.75,rpm,((A*256)+B)/4
+0D,1,Vehicle speed,0,255,km/h,A
+0E,1,Timing advance,-64,63.5,° relative to #1 cylinder,(A-128)/2
+0F,1,Intake air temperature,-40,215,°C,A-40
+10,2,MAF air flow rate,0,655.35,grams/sec,((A*256)+B) / 100
+11,1,Throttle position,0,100, %,A*100/255
+12,1,Commanded secondary air status,,,,Bit encoded. See below
+13,1,Oxygen sensors present,,,,"[A0..A3] == Bank 1, Sensors 1-4. [A4..A7] == Bank 2..."
+14,2,"Bank 1, Sensor 1:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+15,2,"Bank 1, Sensor 2:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+16,2,"Bank 1, Sensor 3:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+17,2,"Bank 1, Sensor 4:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+18,2,"Bank 2, Sensor 1:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+19,2,"Bank 2, Sensor 2:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+1A,2,"Bank 2, Sensor 3:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+1B,2,"Bank 2, Sensor 4:
+Oxygen sensor voltage,
+Short term fuel trim","0
+-100(lean)","1.275
+99.2(rich)","Volts
+%","A/200
+(B-128) * 100/128 (if B==$FF, sensor is not used in trim calc)"
+1C,1,OBD standards this vehicle conforms to,,,,Bit encoded. See below
+1D,1,Oxygen sensors present,,,,"Similar to PID 13, but [A0..A7] == [B1S1, B1S2, B2S1, B2S2, B3S1, B3S2, B4S1, B4S2]"
+1E,1,Auxiliary input status,,,,"A0 == Power Take Off (PTO) status (1 == active)
+[A1..A7] not used"
+1F,2,Run time since engine start,0,65535,seconds,(A*256)+B
+20,4,PIDs supported [21 - 40],,,,Bit encoded [A7..D0] == [PID $21..PID $40] See below
+21,2,Distance traveled with malfunction indicator lamp (MIL) on,0,65535,km,(A*256)+B
+22,2,Fuel Rail Pressure (relative to manifold vacuum),0,5177.265,kPa,((A*256)+B) * 0.079
+23,2,"Fuel Rail Pressure (diesel, or gasoline direct inject)",0,655350,kPa (gauge),((A*256)+B) * 10
+24,4,"O2S1_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","1.999
+7.999","N/A
+V","((A*256)+B)*2/65535 or ((A*256)+B)/32768
+((C*256)+D)*8/65535 or ((C*256)+D)/8192"
+25,4,"O2S2_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+26,4,"O2S3_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+27,4,"O2S4_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+28,4,"O2S5_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+29,4,"O2S6_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+2A,4,"O2S7_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+2B,4,"O2S8_WR_lambda(1):
+Equivalence Ratio
+Voltage","0
+0","2
+8","N/A
+V","((A*256)+B)*2/65535
+((C*256)+D)*8/65535"
+2C,1,Commanded EGR,0,100, %,A*100/255
+2D,1,EGR Error,-100,99.22, %,(A-128) * 100/128
+2E,1,Commanded evaporative purge,0,100, %,A*100/255
+2F,1,Fuel Level Input,0,100, %,A*100/255
+30,1,# of warm-ups since codes cleared,0,255,N/A,A
+31,2,Distance traveled since codes cleared,0,65535,km,(A*256)+B
+32,2,Evap. System Vapor Pressure,-8192,8192,Pa,((A*256)+B)/4 (A and B are two's complementsigned)
+33,1,Barometric pressure,0,255,kPa (Absolute),A
+34,4,"O2S1_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","1.999
+127.99","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+35,4,"O2S2_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+36,4,"O2S3_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32768
+((C*256)+D)/256 - 128"
+37,4,"O2S4_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+38,4,"O2S5_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+39,4,"O2S6_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+3A,4,"O2S7_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+3B,4,"O2S8_WR_lambda(1):
+Equivalence Ratio
+Current","0
+-128","2
+128","N/A
+mA","((A*256)+B)/32,768
+((C*256)+D)/256 - 128"
+3C,2,"Catalyst Temperature
+Bank 1, Sensor 1",-40,6513.5,°C,((A*256)+B)/10 - 40
+3D,2,"Catalyst Temperature
+Bank 2, Sensor 1",-40,6513.5,°C,((A*256)+B)/10 - 40
+3E,2,"Catalyst Temperature
+Bank 1, Sensor 2",-40,6513.5,°C,((A*256)+B)/10 - 40
+3F,2,"Catalyst Temperature
+Bank 2, Sensor 2",-40,6513.5,°C,((A*256)+B)/10 - 40
+40,4,PIDs supported [41 - 60],,,,Bit encoded [A7..D0] == [PID $41..PID $60] See below
+41,4,Monitor status this drive cycle,,,,Bit encoded. See below
+42,2,Control module voltage,0,65.535,V,((A*256)+B)/1000
+43,2,Absolute load value,0,25700, %,((A*256)+B)*100/255
+44,2,Command equivalence ratio,0,2,N/A,((A*256)+B)/32768
+45,1,Relative throttle position,0,100, %,A*100/255
+46,1,Ambient air temperature,-40,215,°C,A-40
+47,1,Absolute throttle position B,0,100, %,A*100/255
+48,1,Absolute throttle position C,0,100, %,A*100/255
+49,1,Accelerator pedal position D,0,100, %,A*100/255
+4A,1,Accelerator pedal position E,0,100, %,A*100/255
+4B,1,Accelerator pedal position F,0,100, %,A*100/255
+4C,1,Commanded throttle actuator,0,100, %,A*100/255
+4D,2,Time run with MIL on,0,65535,minutes,(A*256)+B
+4E,2,Time since trouble codes cleared,0,65535,minutes,(A*256)+B
+4F,4,"Maximum value for equivalence ratio, oxygen sensor voltage, oxygen sensor current, and intake manifold absolute pressure","0, 0, 0, 0","255, 255, 255, 2550",", V, mA, kPa","A, B, C, D*10"
+50,4,Maximum value for air flow rate from mass air flow sensor,0,2550,g/s,"A*10, B, C, and D are reserved for future use"
+51,1,Fuel Type,,,,From fuel type table see below
+52,1,Ethanol fuel %,0,100, %,A*100/255
+53,2,Absolute Evap system Vapor Pressure,0,327.675,kPa,((A*256)+B)/200
+54,2,Evap system vapor pressure,-32767,32768,Pa,((A*256)+B)-32767
+55,2,Short term secondary oxygen sensor trim bank 1 and bank 3,-100,99.22, %,"(A-128)*100/128
+(B-128)*100/128"
+56,2,Long term secondary oxygen sensor trim bank 1 and bank 3,-100,99.22, %,"(A-128)*100/128
+(B-128)*100/128"
+57,2,Short term secondary oxygen sensor trim bank 2 and bank 4,-100,99.22, %,"(A-128)*100/128
+(B-128)*100/128"
+58,2,Long term secondary oxygen sensor trim bank 2 and bank 4,-100,99.22, %,"(A-128)*100/128
+(B-128)*100/128"
+59,2,Fuel rail pressure (absolute),0,655350,kPa,((A*256)+B) * 10
+5A,1,Relative accelerator pedal position,0,100, %,A*100/255
+5B,1,Hybrid battery pack remaining life,0,100, %,A*100/255
+5C,1,Engine oil temperature,-40,210,°C,A - 40
+5D,2,Fuel injection timing,-210,301.992,°,"(((A*256)+B)-26,880)/128"
+5E,2,Engine fuel rate,0,3212.75,L/h,((A*256)+B)*0.05
+5F,1,Emission requirements to which vehicle is designed,,,,Bit Encoded
+60,4,PIDs supported [61 - 80],,,,Bit encoded [A7..D0] == [PID $61..PID $80] See below
+61,1,Driver's demand engine - percent torque,-125,125, %,A-125
+62,1,Actual engine - percent torque,-125,125, %,A-125
+63,2,Engine reference torque,0,65535,Nm,A*256+B
+64,5,Engine percent torque data,-125,125, %,"A-125 Idle
+B-125 Engine point 1
+C-125 Engine point 2
+D-125 Engine point 3
+E-125 Engine point 4"
+65,2,Auxiliary input / output supported,,,,Bit Encoded
+66,5,Mass air flow sensor,,,,
+67,3,Engine coolant temperature,,,,
+68,7,Intake air temperature sensor,,,,
+69,7,Commanded EGR and EGR Error,,,,
+6A,5,Commanded Diesel intake air flow control and relative intake air flow position,,,,
+6B,5,Exhaust gas recirculation temperature,,,,
+6C,5,Commanded throttle actuator control and relative throttle position,,,,
+6D,6,Fuel pressure control system,,,,
+6E,5,Injection pressure control system,,,,
+6F,3,Turbocharger compressor inlet pressure,,,,
+70,9,Boost pressure control,,,,
+71,5,Variable Geometry turbo (VGT) control,,,,
+72,5,Wastegate control,,,,
+73,5,Exhaust pressure,,,,
+74,5,Turbocharger RPM,,,,
+75,7,Turbocharger temperature,,,,
+76,7,Turbocharger temperature,,,,
+77,5,Charge air cooler temperature (CACT),,,,
+78,9,Exhaust Gas temperature (EGT) Bank 1,,,,Special PID. See below
+79,9,Exhaust Gas temperature (EGT) Bank 2,,,,Special PID. See below
+7A,7,Diesel particulate filter (DPF),,,,
+7B,7,Diesel particulate filter (DPF),,,,
+7C,9,Diesel Particulate filter (DPF) temperature,,,,
+7D,1,NOx NTE control area status,,,,
+7E,1,PM NTE control area status,,,,
+7F,13,Engine run time,,,,
+80,4,PIDs supported [81 - A0],,,,Bit encoded [A7..D0] == [PID $81..PID $A0] See below
+81,21,Engine run time for Auxiliary Emissions Control Device(AECD),,,,
+82,21,Engine run time for Auxiliary Emissions Control Device(AECD),,,,
+83,5,NOx sensor,,,,
+84,,Manifold surface temperature,,,,
+85,,NOx reagent system,,,,
+86,,Particulate matter (PM) sensor,,,,
+87,,Intake manifold absolute pressure,,,,
+A0,4,PIDs supported [A1 - C0],,,,Bit encoded [A7..D0] == [PID $A1..PID $C0] See below
+C0,4,PIDs supported [C1 - E0],,,,Bit encoded [A7..D0] == [PID $C1..PID $E0] See below
+C3, ?, ?, ?, ?, ?,"Returns numerous data, including Drive Condition ID and Engine Speed*"
+C4, ?, ?, ?, ?, ?,"B5 is Engine Idle Request
+B6 is Engine Stop Request*"
