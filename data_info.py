@@ -8,6 +8,7 @@ __version__ = '1.0'
 __date__ = '13/09/2014 22:31:02'
 
 import cPickle as pickle
+#import pickle
 from sys import argv, exit
 
 from lib.obd_pids import PIDS
@@ -66,7 +67,16 @@ print('\n ==> INFO')
 avg_speed = avg_data[0x0D]
 avg_maf = avg_data[0x10]
 kilometrs_per_liters_avg = obd.km_per_liter(avg_speed, avg_maf)
+distance = max_data[0x31] - min_data[0x31]
 print('Fuel consumption average (using MAF and Speed): %.3f Km/L' % kilometrs_per_liters_avg)
-print('Distance traveled: %d Km' % (max_data[0x31] - min_data[0x31]))
+print('Distance traveled: %d Km' % distance)
+liters = 0
+for maf in all_data[0x10]:
+    liters += obd.maf_liters(maf)
+print('Fuel consumption : %.3f Liters' % (liters))
+kilometrs_per_liters_avg_alternative = 0
+if distance > 0 and liters > 0:
+    kilometrs_per_liters_avg_alternative = distance / liters
+print('Fuel consumption average (using distance and liters): %.3f Km/L' % kilometrs_per_liters_avg_alternative)
 
 print('\n\n')

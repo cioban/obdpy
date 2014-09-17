@@ -9,6 +9,8 @@ __date__ = '24/08/2014 11:02:34 AM'
 
 class OBD:
     pid_dict = None
+    gasoline_density = 710 # grams/liter
+
     def __init__(self, pid_dict=None):
         self.pid_dict = pid_dict
 
@@ -93,6 +95,14 @@ class OBD:
         data_a = int(data.pop(), 16)
         return (data_a * 100)/255
 
+    #PIDs 0x14 and 0x15
+    def bank_sensor(self, data):
+        # This sensor gives 2 values, but only the oxygen is used in obdpy
+        # 2 values: A/200 in volts and (B-128) * 100/128 in %
+        data_b = int(data.pop(), 16)
+        data_a = int(data.pop(), 16)
+        return data_a/200
+
     def km_per_liter(self, speed, maf):
         # maf: Mass Air Flow - The mass of Air in grams per second consumed.
         # speed: the vehicle in Km/h
@@ -102,21 +112,28 @@ class OBD:
         # http://www.windmill.co.uk/fuel.html
         # http://www.mp3car.com/engine-management-obd-ii-engine-diagnostics-etc/75138-calculating-mpg-from-vss-and-maf-from-obd2.html
         # http://www.investidorpetrobras.com.br/pt/servicos/formulas-de-conversao/detalhe-formulas-de-conversao/densidade-e-poderes-calorificos-superiores.htm
+        # http://en.wikipedia.org/wiki/Gasoline
 
         # Constants
         # Air to gasoline ideal ratio: 14.7 grams of air to 1 gram of gasoline
-        # Gasoline density: 0,742 grams/ml or 742 grams/liter
+        # The minimal gasoline density: 710 grams/liter
 
         # Steps:
         #   1 - Divide the MAF by 14.7 to get grams of fuel per second
-        #   2 - Divide result by 742 to get liters of fuel per second
+        #   2 - Divide result by 710 to get liters of fuel per second
         #   3 - Multiply result by 3600 to get liters per hour
         #   4 - To get Km per liter, divide speed by liters per hour
 
-        liters_per_hour = ((maf / 14.7) / 742 ) * 3600
+        if speed == 0 or maf == 0:
+            return 0
+
+        liters_per_hour = ( (maf / 14.7) / self.gasoline_density ) * 3600
         km_per_liter = speed / liters_per_hour
 
         return km_per_liter
+
+    def maf_liters(self, maf):
+        return (maf / 14.7) / (self.gasoline_density)
 
 '''
 PID:[1] STR_PID:['01'] LEN:[4] DESC:[Monitor status since DTCs cleared. (Includes malfunction indicator lamp (MIL) status and number of DTCs.)]

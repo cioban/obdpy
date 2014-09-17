@@ -18,7 +18,7 @@ import pickle
 class PCD8544:
 
     lcd_cfg = {
-        'contrast': 0xB8,
+        'contrast': 0xb8,
         'backlight': 0xFF,
     }
     ROWS = 6

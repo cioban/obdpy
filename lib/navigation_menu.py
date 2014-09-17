@@ -24,6 +24,7 @@ class NAVIGATION_MENU:
         {'name': 'init', 'enable': True, 'lock': False },
         {'name': 'data1', 'enable': True, 'lock': False },
         {'name': 'data2', 'enable': True, 'lock': False },
+        {'name': 'data3', 'enable': True, 'lock': False },
         ]
     menu_pos = 0
     last_menu_pos = -1
@@ -208,6 +209,33 @@ class NAVIGATION_MENU:
         screen_data = None
         try:
             screen_data = data_list['data2']
+        except:
+            pass
+        if screen_data is None:
+            self.lcd.centre_word(2, "NO DATA!")
+        else:
+            line = 1
+            for line_data in screen_data:
+                try:
+                    tag = line_data[0]
+                    centre = line_data[1]
+                    if centre:
+                        self.lcd.centre_word(line,"%s" % tag)
+                    else:
+                        self.lcd.gotoxy(0,line)
+                        self.lcd.text("%s" % tag)
+                    line += 1
+                except:
+                    self.lcd.centre_word(line, "DATA ERROR!")
+
+        return True
+
+    def screen_data3(self, data_list=None):
+        self.lcd.centre_word(0, ":obd: data 3")
+
+        screen_data = None
+        try:
+            screen_data = data_list['data3']
         except:
             pass
         if screen_data is None:

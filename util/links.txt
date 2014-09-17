@@ -1,0 +1,5 @@
+
+https://github.com/cioban/obdpy
+http://en.wikipedia.org/wiki/OBD-II_PIDs
+http://en.wikipedia.org/wiki/On-board_diagnostics 
+

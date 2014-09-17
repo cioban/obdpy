@@ -16,12 +16,12 @@ class OBD_CONTROLLER:
     obd_info = {}
     no_conn_string = 'UNABLE TO CONNECT'
     connected = False
-    last_liter_time = time()
     liters = 0
     distance = 0
-    init_distance = 0
+    init_distance = -1
     maf_data = []
     speed_data = []
+    rpm_data = []
 
     def __init__(self, obd=None, serial_module=None):
         self.serial_module = serial_module
@@ -37,6 +37,8 @@ class OBD_CONTROLLER:
         self.obd.pid_dict[0x1F].calc_function = self.obd.runtime
         self.obd.pid_dict[0x10].calc_function = self.obd.maf
         self.obd.pid_dict[0x11].calc_function = self.obd.throttle_position
+        self.obd.pid_dict[0x14].calc_function = self.obd.bank_sensor
+        self.obd.pid_dict[0x15].calc_function = self.obd.bank_sensor
 
     def avg(self, value_list):
         value_sum = 0
@@ -161,9 +163,13 @@ class OBD_CONTROLLER:
         data_list = {}
         speed = self.obd.pid_dict[0x0D].value
         maf = self.obd.pid_dict[0x10].value
+        rpm = self.obd.pid_dict[0x0C].value
 
         self.maf_data.append(maf)
         self.speed_data.append(speed)
+        self.rpm_data.append(rpm)
+
+        self.update_info()
 
         try:
             data_list['data1'] = []
@@ -179,11 +185,16 @@ class OBD_CONTROLLER:
                 avg_maf = self.avg(self.maf_data)
                 km_per_liter_avg = self.obd.km_per_liter(avg_speed, avg_maf)
 
-            data_list['data1'].append(['Spd: %d Km/h' % self.obd.pid_dict[0x0D].value, False])
-            data_list['data1'].append(['RPM: %d ' % self.obd.pid_dict[0x0C].value, False])
-            data_list['data1'].append(['Load: %d%% ' % self.obd.pid_dict[0x04].value, False])
-            data_list['data1'].append(['Avg %.2f Km/L ' % km_per_liter_avg, True])
+            if self.distance == 0 or self.liters == 0:
+                consumption = 0
+            else:
+                consumption = self.distance/self.liters
+
+            data_list['data1'].append(['Spd: %d Km/h ' % self.obd.pid_dict[0x0D].value, False])
+            data_list['data1'].append(['RPM: %d %d%%  ' % (rpm, self.obd.pid_dict[0x04].value), False])
             data_list['data1'].append(['> %.2f Km/L <' % km_per_liter, True])
+            data_list['data1'].append(['Avg %.2fKm/L ' % km_per_liter_avg, True])
+            data_list['data2'].append(['*Avg %.2fKm/L ' % consumption, False])
         except Exception, e:
             traceback.print_exc(e)
             data_list['data1'].append(['DATA ERROR', False])
@@ -191,12 +202,36 @@ class OBD_CONTROLLER:
         try:
             data_list['data2'] = []
             data_list['data2'].append(['Run sec: %d' % self.obd.pid_dict[0x1F].value, False])
-            data_list['data2'].append(['Eng temp: %d\'C' % self.obd.pid_dict[0x05].value, False])
-            data_list['data2'].append(['Air temp: %d\'C' % self.obd.pid_dict[0x46].value, False])
-            data_list['data2'].append(['Dist: %dKm' % (self.distance), False])
-            data_list['data2'].append(['T spd: %dKm/h  ' % (max(self.speed_data)), False])
+            data_list['data2'].append(['Trip: %d Km' % (self.distance), False])
+            data_list['data2'].append(['Liters: %.2f' % (self.liters), False])
+            data_list['data2'].append(['Eng temp: %d\'C ' % self.obd.pid_dict[0x05].value, False])
+            data_list['data2'].append(['Air temp: %d\'C ' % self.obd.pid_dict[0x46].value, False])
         except Exception, e:
             traceback.print_exc(e)
             data_list['data2'].append(['DATA ERROR', False])
 
+        try:
+            data_list['data3'] = []
+            data_list['data3'].append(['*Speed*', False])
+            data_list['data3'].append([' Top: %dKm/h ' % (max(self.speed_data)), False])
+            data_list['data3'].append([' Avg: %dKm/h ' % (self.avg(self.speed_data)), False])
+            data_list['data3'].append(['RPM Top: %d  ' % (max(self.rpm_data)), False])
+            data_list['data3'].append(['RPM Avg: %d  ' % (self.avg(self.rpm_data)), False])
+        except Exception, e:
+            traceback.print_exc(e)
+            data_list['data3'].append(['DATA ERROR', False])
+
         return data_list
+
+    def update_info(self):
+        maf = self.obd.pid_dict[0x10].value
+        distance = self.obd.pid_dict[0x31].value
+
+        if maf is None or distance is None:
+            return False
+
+        if self.init_distance == -1:
+            self.init_distance = distance
+
+        self.distance = (distance - self.init_distance)
+        self.liters += self.obd.maf_liters(maf)

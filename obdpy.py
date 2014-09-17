@@ -107,7 +107,7 @@ def do_store_data(obd_ctrl, data_file, data_queue):
         data_queue.task_done()
 
     data_file_fd = open(data_file, 'wb')
-    pickle.dump(data_list, data_file_fd)
+    pickle.dump(data_list, data_file_fd, -1)
     data_file_fd.close()
 
 ########################################
