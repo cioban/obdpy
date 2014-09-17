@@ -194,7 +194,7 @@ class OBD_CONTROLLER:
             data_list['data1'].append(['RPM: %d %d%%  ' % (rpm, self.obd.pid_dict[0x04].value), False])
             data_list['data1'].append(['> %.2f Km/L <' % km_per_liter, True])
             data_list['data1'].append(['Avg %.2fKm/L ' % km_per_liter_avg, True])
-            data_list['data2'].append(['*Avg %.2fKm/L ' % consumption, False])
+            data_list['data1'].append(['*Avg %.2fKm/L ' % consumption, False])
         except Exception, e:
             traceback.print_exc(e)
             data_list['data1'].append(['DATA ERROR', False])
