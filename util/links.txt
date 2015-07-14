@@ -2,4 +2,4 @@
 https://github.com/cioban/obdpy
 http://en.wikipedia.org/wiki/OBD-II_PIDs
 http://en.wikipedia.org/wiki/On-board_diagnostics 
-
+http://thoughtdraw.wordpress.com/2011/02/20/derive-engine-power-using-obd-data/
